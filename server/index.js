@@ -20,13 +20,14 @@ app.get("/*", (req, res, next) => {
     }
     // get post info
     const postId = req.query.id;
+    const param=req.query.title;
     const post = getPostById(postId);
     if (!post) return res.status(404).send("Post not found");
 
     // inject meta tags
     htmlData = htmlData
-      .replace("<title>React App</title>", `<title>${post.title}</title>`)
-      .replace("__META_OG_TITLE__", post.title)
+      .replace("<title>React App</title>", `<title>${param}</title>`)
+      .replace("__META_OG_TITLE__", param)
       .replace("__META_OG_DESCRIPTION__", post.description)
       .replace("__META_DESCRIPTION__", post.description)
       .replace("__META_OG_IMAGE__", post.thumbnail)
