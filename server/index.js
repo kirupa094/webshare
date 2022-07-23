@@ -21,6 +21,7 @@ app.get("/*", (req, res, next) => {
     // get post info
     const postId = req.query.id;
     const param=req.query.title;
+    const img=req.query.img;
     const post = getPostById(postId);
     if (!post) return res.status(404).send("Post not found");
 
@@ -30,7 +31,7 @@ app.get("/*", (req, res, next) => {
       .replace("__META_OG_TITLE__", param)
       .replace("__META_OG_DESCRIPTION__", post.description)
       .replace("__META_DESCRIPTION__", post.description)
-      .replace("__META_OG_IMAGE__", post.thumbnail)
+      .replace("__META_OG_IMAGE__", img)
       .replace("__META_OG_URL__", post.url);
     return res.send(htmlData);
   });
