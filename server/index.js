@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const { getPostById } = require("./stub/posts");
+const ImageDataURI = require("image-data-uri");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
@@ -20,8 +21,8 @@ app.get("/*", (req, res, next) => {
     }
     // get post info
     const postId = req.query.id;
-    const param=req.query.title;
-    const image=req.query.img;
+    const param = req.query.title;
+    const dataURI = req.query.img;
     const post = getPostById(postId);
     if (!post) return res.status(404).send("Post not found");
 
@@ -31,11 +32,12 @@ app.get("/*", (req, res, next) => {
       .replace("__META_OG_TITLE__", param)
       .replace("__META_OG_DESCRIPTION__", post.description)
       .replace("__META_DESCRIPTION__", post.description)
-      .replace("__META_OG_IMAGE__", image)
+      .replace("__META_OG_IMAGE__", dataURI)
       .replace("__META_OG_URL__", post.url);
     return res.send(htmlData);
   });
 });
+app.post(() => {});
 // listening...
 app.listen(PORT, (error) => {
   if (error) {
